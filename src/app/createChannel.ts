@@ -1,5 +1,5 @@
 import { Message } from "./message";
-import { User } from "./user";
+
 
 export class ChannelC{
     name!:string;

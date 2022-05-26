@@ -1,11 +1,14 @@
 import { Component } from "@angular/core";
 import { ChannelService } from "./channelService";
 import { Message } from "./message";
+import { MessageService } from "./messageService";
 
 @Component({
     selector:'app-channel',
     templateUrl:'./channel.component.html',
-    providers:[ChannelService]
+    providers:[ChannelService],
+    styleUrls: ['./channel.component.css']
+    
 
 })
 
@@ -21,29 +24,31 @@ export class Channel{
     message!:string;
 
     cname!:string;
-    flag1:boolean=false;
-    flag2:boolean=false;
+    sub:boolean=false;
+    send:boolean=false;
+
+    hide:boolean=true;
    
 
 
-    constructor(public channelService:ChannelService){}
+    constructor(public channelService:ChannelService,public messageService:MessageService){}
 
     submit(na:string){
         this.name=na;
          console.log(this.name+" hi");
          console.log()
+        
         //console.log(this.name);
         this.channelService.toGeneralChannel({
             id:this.id++,
             name:this.name,
             channelName:'general',
-             
+          })
 
-        })
-
-        
-        
+        this.hide=false;
         console.log(this.name)
+
+      
        
     }
 
@@ -53,99 +58,70 @@ export class Channel{
             messageBody:mess,
             date:new Date()
         })
-
-        //this.message=mess;
-
-        
-      
-       console.log(mess);
+         //this.message=mess;
+          console.log(mess);
        
     }
 
    createChannel(name:string){
-       this.channelService.createChannel({
+       this.messageService.createChannel({
            name:name,
            user:'',
            message:undefined
 
        })
        //this.cname=name;
-
-       this.flag2=false;
-
-       console.log(name);
+        
+        console.log(name);
+        this.sub=false;
+       
    }
 
    addMessToChannel(mess:string,name:string){
     //    if(this.channelName===this.cname){
 
     let msg=new Message(name,mess,new Date());
-    console.log(msg)
-       this.channelService.addMessToChannel(msg, this.channelName)
+    //console.log(msg)
+       this.messageService.addMessToChannel(msg, this.channelName)
 
-       
     //    console.log(mess+" "+name)
     //    this.message=mess;
     //    console.log(this.channelService.channelc)
     // }
+  this.send=false;
+
    }
 
    joinChannel(name:string){
        this.channelName=name;
-       this.flag1=true;
-       
+     
+     console.log(name);
+     this.send=true;
+    //this.sub=false;
 
-    //    if(this.channelName!=='general'){
-    //     this.flag=true;
-    //    }
-      
-       console.log(this.channelName);
+    if(this.channelName=='general'){
+        this.send=false;
+    }
+
+   
+
+    
     
    }
 
 
    printMessage(){
-       return this.channelService.printMessage(this.channelName);
+       return this.messageService.printMessage(this.channelName);
    }
 
    subscribe(){
-       this.flag2=true;
+       this.send=false;
+       this.sub=true;
+     
    }
 
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    // create(name:string){
-    //     this.channelService.createChannel({
-    //         name:name,
-              
-    //     })
-
-    //     console.log("hii")
-        
-    // }
-
-
-    // createdChannel(name:string){
-    //     this.channelService.toNewChannel({
-    //         name:name,
-    //         user:{ id:this.id++,
-    //             name:this.name,
-    //             channelName:'a'},
-    //         message:{ name:name,
-    //             messageBody:this.message,
-    //             date:new Date()}    
-    //     })
-    // }
+   getMemberNames(){
+       return this.messageService.getMemberNames(this.channelName);
+   }
 
 }

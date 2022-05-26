@@ -1,127 +1,92 @@
-<div>
+<div  *ngIf="hide">
     <label> Enter Your Name : &nbsp;</label>
     <input type="text" #na>
 
-    
-    <button class="btn btn-secondary" (click)="submit(na.value)">Submit</button>
+
+    <button class="btn btn-secondary" (click)="submit(na.value)">   Submit</button>
 
 
 </div>
-<br><br>
-<div class="row">
-    <div class="col-sm">
-        <div class="card" style="width: 18rem;">
-            <div class="card-header">
-                <div>
-                <div class="card-text" *ngFor="let item of channelService.user">
+<br>
 
-                    <h3>{{item.name}}</h3>
+<div>
+    <label> Enter Channel Name :</label>
+    <input type="text" #name>
+    <button (click)=" createChannel(name.value)">Create</button>
+</div>
+<br>
 
-                    <input type="text" #message>
-                    <p></p>
-                    <!-- <button  [disabled]="flag2"  (click)="subscribe()  "> Subscribe</button> -->
-                    <!-- <br><br> -->
-                    <button class="btn btn-secondary"   (click)="addMessToChannel(message.value,item.name)  ">Send Mesaage</button>
-                    <br><br>
-                
-                    
+<div class="grid-container">
+
+  
+    <div class="left" style="background-color:#aaa;">
+        <h4><b>Channels</b></h4>
+        <hr style="color: rgb(0, 0, 0);">
+    <div *ngFor="let item of messageService.channelc">
+       
+          
+        <button  class="dropdown-item" (click)="joinChannel(item.name)">
+           <b> {{item.name}}</b>
+           <!-- <hr style="color: rgb(0, 0, 0);"> -->
+        </button>
+        <!-- <button  [disabled]="sub"   (click)="subscribe()" *ngIf="item.name !=='general' ">Subscribe</button> -->
+   
+    
+    </div>
+    </div>
+    
+    <div  style="text-align:center" class="middle" style="background-color:rgb(209, 192, 192);">
+        <div class="col-sm">
+            <div class="card-header" style="width: 18rem;">
+                <div  class="card-body">
+                 <h3 >{{channelName}}</h3>
+                 <hr style="color: rgb(0, 0, 0);">
+    
+                    <div  *ngFor="let item of printMessage()">
+                        <!-- <div *ngIf="channelName!=='general'"> -->
+                            {{ item.date | date: "mediumTime" }}
+                            <b>{{item.name}} </b> :
+                            {{item.messageBody}}
+                            <hr>
+                        <!-- </div> -->
                     </div>
+    
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
+
 
     
-    <div class="col-sm">
-        <div class="card-header" style="width: 18rem;">
-            <div class="card-body" >
-                <h3>General</h3>
-                
-                <div *ngFor="let item of printMessage()">
-                    <div *ngIf="channelName==='general'">
-                   
-                    {{ item.date | date: "mediumTime" }}
-                   <b>{{item.name}} </b>  :
-                    {{item.messageBody}}
-                    <hr>
-                    
-                </div>
-                </div>
-            </div>
-        </div>
+        <!-- <b>Members</b>
+    <div  *ngFor="let x of messageService.channelc" class="right" style="background-color:rgb(149, 133, 133);">
+        <div *ngFor="let y of x.user" >
+       
+        <h3>{{y}}</h3>
     </div>
+     
+</div>  -->
 
+<div   class="right" style="background-color:rgb(149, 133, 133);">
 
-
-    <div class="col-sm">
-        <div class="card-header" style="width: 18rem;">
-            <div class="card-body" >
-                <h3>{{channelName}}</h3>
-                
-                <div *ngFor="let item of printMessage()">
-                 <div *ngIf="channelName!=='general'">
-                    {{ item.date | date: "mediumTime" }}
-                    <b>{{item.name}} </b> :
-                    {{item.messageBody}}
-                    <hr>
-                </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm">
-        <div class="card-header" style="width: 18rem;">
-            <div class="card-body">
-                <h3>Create channel</h3>
-                <div>
-                    <label> Enter Channel Name :</label>
-                    <input type="text" #name>
-                    <button  (click)=" createChannel(name.value)">Create</button>
-                </div>
-                <div class="btn-group"  >
-                    <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false"     > Join Channel</button>
-                    <ul class="dropdown-menu"  >
-                        <li *ngFor="let item of channelService.channelc">
-                            <button class="dropdown-item"  (click)="joinChannel(item.name)"  >
-                             {{item.name}}
-                             </button>
-                     </li>
-                        </ul>
-                    </div>
-                <div *ngFor="let item of channelService.message" >
-                    
-                    
-                    
-                    {{ item.date | date: "longTime" }}
-                        {{item.name}} :
-                        {{item.messageBody}}
-                    
-                </div>
-            </div>
-        </div>
-    </div>
+    <h4><b>Members</b></h4>
+    <hr style="color: rgb(0, 0, 0);">
+    <div *ngFor="let x of getMemberNames() ">
+   
+        <h3>{{x}}</h3>
+    
+   
 </div>
-
-<!-- <div>
-    <div class="dropdown show"> -->
-        <!-- <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Dropdown link
-        </a> -->
-
-        <!-- <div class="btn-group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false"> Channel</button>
-            <ul class="dropdown-menu">
-                <li><button class="dropdown-item"  >
-                    General
-                </button>
-               
-            </li>
-                <li><button class="dropdown-item" *ngFor="let item of channelService.cc">{{item.newName}}</button>
-                </li>
-            </ul>
-        </div> -->
+    
+</div>
+ 
+<!-- </div> -->
+    
+    <div class="footer"  *ngFor="let item of channelService.user">
+        <input type="text" #message>
+        <!-- <button  [disabled]="send" class="btn btn-secondary" (click)="addMessToChannel(message.value,item.name)  ">Send
+            Mesaage</button> -->
+              <button    class="btn btn-secondary" (click)="addMessToChannel(message.value,item.name)  ">Send
+            Mesaage</button>
+    </div>
+  </div>
