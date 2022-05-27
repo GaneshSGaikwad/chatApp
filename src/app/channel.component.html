@@ -1,15 +1,16 @@
-<div  *ngIf="hide">
+<div *ngIf="hide" >
     <label> Enter Your Name : &nbsp;</label>
     <input type="text" #na>
 
 
-    <button class="btn btn-secondary" (click)="submit(na.value)">   Submit</button>
+    <button  class="btn btn-secondary" (click)="submit(na.value)">   Submit</button>
 
 
 </div>
 <br>
+<div *ngIf="hide1">
 
-<div>
+<div  >
     <label> Enter Channel Name :</label>
     <input type="text" #name>
     <button (click)=" createChannel(name.value)">Create</button>
@@ -22,14 +23,18 @@
     <div class="left" style="background-color:#aaa;">
         <h4><b>Channels</b></h4>
         <hr style="color: rgb(0, 0, 0);">
-    <div *ngFor="let item of messageService.channelc">
+    <div  *ngFor="let item of messageService.channelc">
        
           
-        <button  class="dropdown-item" (click)="joinChannel(item.name)">
-           <b> {{item.name}}</b>
+        <button   class="dropdown-item" (click)="joinChannel(item.name)  ">
+            
+           <b > {{item.name}}</b>
            <!-- <hr style="color: rgb(0, 0, 0);"> -->
+      
         </button>
-        <!-- <button  [disabled]="sub"   (click)="subscribe()" *ngIf="item.name !=='general' ">Subscribe</button> -->
+        
+        <button     (click)="subscribe(item.name)" *ngIf=" item.name !='general'&&  !isSubscribe() ">Subscribe</button>
+        <button    (click)="unsubscribe(item.name)" *ngIf=" item.name !='general'">UnSubscribe</button>
    
     
     </div>
@@ -43,12 +48,12 @@
                  <hr style="color: rgb(0, 0, 0);">
     
                     <div  *ngFor="let item of printMessage()">
-                        <!-- <div *ngIf="channelName!=='general'"> -->
+                        <div *ngIf="isSubscribe()">
                             {{ item.date | date: "mediumTime" }}
                             <b>{{item.name}} </b> :
                             {{item.messageBody}}
                             <hr>
-                        <!-- </div> -->
+                        </div>
                     </div>
     
                 </div>
@@ -86,7 +91,8 @@
         <input type="text" #message>
         <!-- <button  [disabled]="send" class="btn btn-secondary" (click)="addMessToChannel(message.value,item.name)  ">Send
             Mesaage</button> -->
-              <button    class="btn btn-secondary" (click)="addMessToChannel(message.value,item.name)  ">Send
+              <button *ngIf="isSubscribe()"    class="btn btn-secondary" (click)="addMessToChannel(message.value,item.name)  ">Send
             Mesaage</button>
     </div>
   </div>
+</div>

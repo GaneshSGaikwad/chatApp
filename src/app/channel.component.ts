@@ -24,10 +24,13 @@ export class Channel{
     message!:string;
 
     cname!:string;
-    sub:boolean=false;
-    send:boolean=false;
+    
 
     hide:boolean=true;
+
+    hide1:boolean=false;
+
+    sub:boolean=true;
    
 
 
@@ -35,8 +38,8 @@ export class Channel{
 
     submit(na:string){
         this.name=na;
-         console.log(this.name+" hi");
-         console.log()
+        //  console.log(this.name+" hi");
+        //  console.log()
         
         //console.log(this.name);
         this.channelService.toGeneralChannel({
@@ -45,8 +48,9 @@ export class Channel{
             channelName:'general',
           })
 
-        this.hide=false;
-        console.log(this.name)
+          this.hide=false;
+        this.hide1=true;
+        //console.log(this.name)
 
       
        
@@ -59,7 +63,7 @@ export class Channel{
             date:new Date()
         })
          //this.message=mess;
-          console.log(mess);
+          //console.log(mess);
        
     }
 
@@ -73,7 +77,8 @@ export class Channel{
        //this.cname=name;
         
         console.log(name);
-        this.sub=false;
+       // this.sub=false;
+      
        
    }
 
@@ -88,22 +93,21 @@ export class Channel{
     //    this.message=mess;
     //    console.log(this.channelService.channelc)
     // }
-  this.send=false;
+  //this.send=false;
+  
 
    }
 
    joinChannel(name:string){
        this.channelName=name;
      
-     console.log(name);
-     this.send=true;
+    //  console.log(name);
+    //  this.send=true;
     //this.sub=false;
 
-    if(this.channelName=='general'){
-        this.send=false;
-    }
+    
 
-   
+    
 
     
     
@@ -111,17 +115,38 @@ export class Channel{
 
 
    printMessage(){
+       this.sub=false;
        return this.messageService.printMessage(this.channelName);
    }
 
-   subscribe(){
-       this.send=false;
-       this.sub=true;
-     
-   }
+   isSubscribe():boolean{
+    if (this.channelName=='general') {
+        return true;
+    }
+
+    console.log("channel name "+this.channelName)
+return this.messageService.isSubscribe(this.channelName,this.name)
+}
 
    getMemberNames(){
        return this.messageService.getMemberNames(this.channelName);
    }
+
+   
+   subscribe(cname:string) {
+        
+    console.log(this.name+" NAME")
+    // this.send=false;
+    // this.sub=true;
+    this.sub=true;
+
+
+    return this.messageService.subscribe(cname,this.name);
+    
+}
+
+unsubscribe(cname:string){
+    return this.messageService.unsubscribe(cname,this.name);
+}
 
 }

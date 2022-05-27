@@ -13,7 +13,7 @@ export class ChannelService{
     toGeneralChannel(u:any){
         let x=new User(u['id'],u['name'],u['channelName']);
         this.user.push(x);
-        console.log(this.user);
+        //console.log(this.user);
 
     }
 
@@ -21,7 +21,7 @@ export class ChannelService{
 
         let y=new Message(m['name'],m['messageBody'],m['date'])
         this.message.push(y);
-        console.log(this.message);
+        //console.log(this.message);
 
     }
 

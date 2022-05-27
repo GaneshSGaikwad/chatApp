@@ -29,7 +29,7 @@ export class MessageService{
   
             //console.log(b)
 
-            console.log(this.channelc)
+           // console.log(this.channelc)
   
       }
 
@@ -46,14 +46,14 @@ export class MessageService{
 
     getMemberNames(cname:string):any{
         //console.log(this.channelc.find((x)=> x.name==cname)!.user+" hii "+cname)
-       console.log( this.channelc.filter((x)=> x.name==cname)+" hiiii")
+       //console.log( this.channelc.filter((x)=> x.name==cname)+" hiiii")
      
        
         
         let temp=this.channelc.find((x)=> x.name==cname);
         let unique = [...new Set(temp?.user)];
 
-        console.log(unique+" hhhh")
+       // console.log(unique+" hhhh")
             return unique;
     
         
@@ -67,4 +67,47 @@ export class MessageService{
 
         
     }
+
+
+    // isSubscribe(cname: string, uname: string): boolean {
+
+    //     console.log("cname "+ cname + "uname "+uname)
+    //     if (cname == "general")
+
+    //         return false;
+
+    //     return this.channelc.find(elem => elem.name == cname)?.user.find(elem => elem == uname) ? true : false;
+
+    // }
+
+    isSubscribe(cname: string, uname: string): boolean {
+
+        console.log("cname "+ cname + "uname "+uname)
+        if (cname == "general")
+
+            return false;
+
+        return this.channelc.find(elem => elem.name == cname)?.user.find(elem => elem == uname) ? true : false;
+
+
+    }
+
+    subscribe(cname: string, user: string) {
+
+        this.channelc.find(elem => elem.name == cname)?.user.push(user);
+
+    }
+
+    unsubscribe(cname: string, user: string){
+     let x=this.channelc!.find(elem => elem.name == cname);
+    x!.user= x!.user.filter(y => y != user);
+     console.log("unsubscribe"+ this.channelc)
+
+    }
+
+
+    // removeDepartment(name: string): void {
+    //     this.departments = this.departments.filter(item => item != name);
+    //   }
+
 }
